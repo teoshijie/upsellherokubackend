@@ -9,6 +9,7 @@ mongoose.connect(mongoURI, ({useNewUrlParser: true, useUnifiedTopology: true }),
     () => console.log('MongoDB connection establised:', mongoURI)
 )
 
+
 //Error/Disconnection 
 db.on('error', err => console.log(err.message + ' is Mongod not running?'))
 db.on('disconnected', () => console.log('mongo disconnected'))
