@@ -13,7 +13,7 @@ const cookieExtractor = req => {
 //authorization (protect the edit end point)
 passport.use(new JwtStrategy({
    jwtFromRequest: cookieExtractor, 
-   secretOrKey : "awesomeshijie"
+   secretOrKey : "superdanny"
 }, (payload, done) => {
    User.findById({_id : payload.sub}, (err,user) =>{
        if (err){

@@ -40,7 +40,7 @@ router.post('/signup', (req, res) => {
                 }
             })
         }
-    })
+    })  
 })
 
 router.post('/login', passport.authenticate('local', {session: false}), (req, res) => {
@@ -57,5 +57,6 @@ router.get('/logout', passport.authenticate('jwt', {session: false}), (req, res)
     res.json({user:{username: ""}, success: true})
     
 })
+
 
 module.exports = router;
