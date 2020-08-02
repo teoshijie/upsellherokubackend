@@ -9,6 +9,17 @@ router.post('/create', (req, res) => {
     });
 });
 
+//find by id route 
+router.get('/:listingID', (req, res) => {
+    Listings.findById(req.params.listingID, (err, foundListings) => {
+        if (err) {
+            res.status(500).json({ message: { msgbody: err, msgError: true } })
+        } else {
+            res.json(foundListings);
+        }
+    });
+});
+
 //create Index route 
 router.get('/', (req, res) => {
     Listings.find({}, (err, foundListings) => {
