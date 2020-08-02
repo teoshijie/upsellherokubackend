@@ -12,7 +12,6 @@ router.post('/create', (req, res) => {
 //find by id route 
 router.get('/:listingID', (req, res) => {
     Listings.findById(req.params.listingID, (err, foundListings) => {
-        console.log(foundListings);
         if (err) {
             res.status(500).json({ message: { msgbody: err, msgError: true } })
         } else {
