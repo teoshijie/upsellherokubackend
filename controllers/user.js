@@ -8,10 +8,18 @@ const JWT = require('jsonwebtoken');
 
 const signToken = userID => {
     return JWT.sign({
-        iss : "helloworld",
+        iss : "superdanny",
         sub: userID 
-    }, "helloworld", {expiresIn: "1h"})
+    }, "superdanny", {expiresIn: "1h"})
 }
+
+router.get('/', (req, res) => {
+    User.find({}, (err, foundUser) => {
+        res.json(foundUser);
+    });
+});
+
+
 // User register 
 router.post('/register', (req, res) => {
     const {username, password} = req.body
@@ -23,6 +31,7 @@ router.post('/register', (req, res) => {
             res.status(500).json({message: {msgbody: "Username is already taken!", msgError: true}})
         } else {
             const newUser = new User({username, password});
+            console.log(newUser)
             newUser.save(err=> {
                 if (err){
                     res.status(500).json({message: {msgbody: "Username is already taken!", msgError: true}})

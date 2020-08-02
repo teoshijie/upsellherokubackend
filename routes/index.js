@@ -1,4 +1,5 @@
-
+// const { PromiseProvider } = require('mongoose');
+// const { populate } = require('../models/users');
 
 module.exports = (app) => {
     const usersController = require('../controllers/user');
