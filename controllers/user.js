@@ -21,8 +21,8 @@ router.get('/', (req, res) => {
 
 
 // User register 
-router.post('/register', (req, res) => {
-    const {username, password} = req.body
+router.post('/signup', (req, res) => {
+    const {username, password, email, mobile} = req.body
     console.log(req.body)
     User.findOne({username}, (err,user) => {
         if (err){
@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
         } else if (user){
             res.status(500).json({message: {msgbody: "Username is already taken!", msgError: true}})
         } else {
-            const newUser = new User({username, password});
+            const newUser = new User({username, password,email, mobile});
             console.log(newUser)
             newUser.save(err=> {
                 if (err){

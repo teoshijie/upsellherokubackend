@@ -14,6 +14,15 @@ const userSchema = new mongoose.Schema({
                 min: 8,
                 max: 15
         },
+        email: {
+                type: String,
+                lowercase: true,
+                required: true 
+        },
+        mobile: {
+                type: Number,
+                required: true 
+        },
         created_date: { type: Date, default: Date.now },
         shoppingcart: [
                 {
