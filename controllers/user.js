@@ -54,14 +54,13 @@ router.post('/login', passport.authenticate('local', {session: false}), (req, re
 
 router.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.clearCookie('access_token');
-    res.json({user:{username: ""}, success: true})
-    
+    res.json({user:{username: ""}, success: true});
 })
 
-userRouter.get('/authenticated',passport.authenticate('jwt',{session : false}),(req,res)=>{
-    const {username} = req.user;
-    res.status(200).json({isAuthenticated : true, user : {username,role}});
-});
-
+router.get('/authenticated', passport.authenticate('jwt', {session: false}), (req, res) => {
+        const {username,role} = req.user;
+        res.status(200).json({isAuthenticated: true, user: {username,role}});
+    })
+    
 
 module.exports = router;
