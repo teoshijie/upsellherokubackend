@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Listings = require('../models/listings.js')
+const Listings = require('../models/listings.js');
+const User = require('../models/user')
 
 //create listing route 
 router.post('/create', (req, res) => {
@@ -15,7 +16,16 @@ router.get('/:listingID', (req, res) => {
         if (err) {
             res.status(500).json({ message: { msgbody: err, msgError: true } })
         } else {
-            res.json(foundListings);
+            User.findById(foundListings.userID, (err, foundUser) => {
+                if (err) {
+                    res.status(500).json({ message: { msgbody: err, msgError: true } })
+                } else {
+                    res.json({
+                        ...foundListings.toObject(),
+                        username: foundUser.username
+                    });
+                }
+            });
         }
     });
 });
