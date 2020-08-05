@@ -25,6 +25,10 @@ router.get('/authenticated', passport.authenticate('jwt', { session: false }), (
     res.status(200).json({ isAuthenticated: true, user: { username, role } });
 })
 
+router.get('/logout', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.clearCookie('access_token');
+    res.json({ user: { username: "" }, success: true });
+})
 //find by username by id route 
 router.get('/:userID', (req, res) => {
     User.findById(req.params.userID, (err, foundUser) => {
@@ -39,7 +43,6 @@ router.get('/:userID', (req, res) => {
 // User register 
 router.post('/signup', (req, res) => {
     const { username, password, email, mobile } = req.body
-    console.log(req.body)
     User.findOne({ username }, (err, user) => {
         if (err) {
             res.status(500).json({ message: { msgbody: "Error has occured!", msgError: true } })
@@ -47,7 +50,6 @@ router.post('/signup', (req, res) => {
             res.status(500).json({ message: { msgbody: "Username is already taken!", msgError: true } })
         } else {
             const newUser = new User({ username, password, email, mobile });
-            console.log(newUser)
             newUser.save(err => {
                 if (err) {
                     res.status(500).json({ message: { msgbody: "Username is already taken!", msgError: true } })
@@ -61,17 +63,13 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
     if (req.isAuthenticated()) {
-        const { _id, username } = req.user;
+        const { _id, username, role } = req.user;
         const token = signToken(_id);
         res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-        res.status(200).json({ isAuthenticated: true, user: { username } });
+        res.status(200).json({ isAuthenticated: true, user: { username, role } });
     }
 })
 
-router.get('/logout', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.clearCookie('access_token');
-    res.json({ user: { username: "" }, success: true });
-})
 
 
 
