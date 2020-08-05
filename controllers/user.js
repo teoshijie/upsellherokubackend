@@ -13,12 +13,23 @@ const signToken = userID => {
     }, "superdanny", {expiresIn: "1h"})
 }
 
+//find all route
 router.get('/', (req, res) => {
     User.find({}, (err, foundUser) => {
         res.json(foundUser);
     });
 });
 
+//find by username by id route 
+router.get('/:userID', (req, res) => {
+    User.findById(req.params.userID, (err, foundUser) => {
+        if (err) {
+            res.status(500).json({ message: { msgbody: err, msgError: true } })
+        } else {
+            res.json(foundUser.username);
+        }
+    });
+});
 
 // User register 
 router.post('/signup', (req, res) => {
