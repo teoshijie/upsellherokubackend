@@ -35,7 +35,8 @@ router.get('/:userID', (req, res) => {
         if (err) {
             res.status(500).json({ message: { msgbody: err, msgError: true } })
         } else {
-            res.json(foundUser.username);
+            foundUser.password = null;
+            res.json(foundUser);
         }
     });
 });
@@ -63,10 +64,11 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
     if (req.isAuthenticated()) {
-        const { _id, username, role } = req.user;
-        const token = signToken(_id);
+        const info = req.user;
+            info.password = null;
+        const token = signToken(info._id);
         res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-        res.status(200).json({ isAuthenticated: true, user: { username, role } });
+        res.status(200).json({ isAuthenticated: true, user: info});
     }
 })
 
