@@ -36,7 +36,8 @@ router.get('/:userID', (req, res) => {
         if (err) {
             res.status(500).json({ message: { msgbody: err, msgError: true } })
         } else {
-            res.json(foundUser.username);
+            foundUser.password = null;
+            res.json(foundUser);
         }
     });
 });
@@ -82,29 +83,14 @@ router.post('/create',passport.authenticate('jwt',{session : false}),(req,res)=>
 });
 
 
-router.post(
-    '/login', 
-    (req, res, next) => {
-         passport.authenticate('local', (err,user, info)=> {
-             console.log("err and user" + err, user)
-            if (err){ //unknown server error 
-                next(err)
-            } 
-            if (!user){ //empty case
-                res.status(400).json({message: 'Invalid Username or password'})
-            }
-            req.logIn(user, {session: false}, err=>{
-                if(err){
-                    next(err) //for password? check later
-                }
-                const { _id, username, role } = req.user; //success case
-                const token = signToken(_id);
-                res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-                    res.status(200).json({ isAuthenticated: true, user: { username, role } });
-            }
-            )
-        }) (req, res, next)
-             
+router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
+    if (req.isAuthenticated()) {
+        const info = req.user;
+            info.password = null;
+        const token = signToken(info._id);
+        res.cookie('access_token', token, { httpOnly: true, sameSite: true });
+        res.status(200).json({ isAuthenticated: true, user: info});
+    }
 })
 
 
