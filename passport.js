@@ -29,6 +29,8 @@ passport.use(new JwtStrategy({
 // authenticated local stragety using username and password 
 
 passport.use(new LocalStrategy((username,password,done) => {
+    console.log('username and password:'+ username, password)
+
    User.findOne({username},(err,user) => {
        if(err){
            return done(err)

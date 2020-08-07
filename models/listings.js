@@ -11,7 +11,7 @@ const listingSchema = new mongoose.Schema({
         condition: {type: String},
         created_date: { type: Date, default: Date.now },
         last_updated_date: { type: Date, default: Date.now },
-        userID: { type: String }
+        userID: {type : mongoose.Schema.Types.ObjectId, ref: 'users'}
 });
 
 const Listings = mongoose.model('listings', listingSchema);
