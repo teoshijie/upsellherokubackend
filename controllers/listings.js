@@ -3,12 +3,13 @@ const router = express.Router();
 const Listings = require('../models/listings.js');
 const User = require('../models/user')
 
-//create listing route 
-router.post('/create', (req, res) => {
-    Listings.create(req.body, (err, createdListing) => {
-        res.json(createdListing); //.json() will send proper headers in response so client knows it's json coming back 
-    });
-});
+// router.post('/create', (req, res) => {
+//     Listings.create(req.body, (err, createdListing) => {
+//         res.json(createdListing); //.json() will send proper headers in response so client knows it's json coming back 
+//     });
+// });
+
+
 
 //find by id route 
 router.get('/:listingID', (req, res) => {
