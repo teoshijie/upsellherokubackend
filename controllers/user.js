@@ -9,9 +9,9 @@ const Orders = require('../models/orders');
 
 const signToken = userID => {
     return JWT.sign({
-        iss: "superdanny",
+        iss: process.env.SECRET_KEY,
         sub: userID
-    }, "superdanny", { expiresIn: "1h" })
+    }, process.env.SECRET_KEY, { expiresIn: "1h" })
 }
 
 //find all route
