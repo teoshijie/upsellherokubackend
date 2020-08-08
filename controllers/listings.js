@@ -3,12 +3,17 @@ const router = express.Router();
 const Listings = require('../models/listings.js');
 const User = require('../models/user')
 
-// router.post('/create', (req, res) => {
-//     Listings.create(req.body, (err, createdListing) => {
-//         res.json(createdListing); //.json() will send proper headers in response so client knows it's json coming back 
-//     });
-// });
 
+// find by userID route 
+router.get('/mylistings/:userID', (req, res) => {
+    Listings.find({ userID:req.params.userID }, (err, foundListings) => {
+        if (err) {
+            res.status(500).json({ message: { msgbody: err, msgError: true } })
+        } else {
+            res.json(foundListings);
+        }
+    });
+});
 
 
 //find by id route 
