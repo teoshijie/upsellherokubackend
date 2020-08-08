@@ -22,6 +22,7 @@ router.get('/:listingID', (req, res) => {
         if (err) {
             res.status(500).json({ message: { msgbody: err, msgError: true } })
         } else {
+            console.log(foundListings);
             User.findById(foundListings.userID, (err, foundUser) => {
                 if (err) {
                     res.status(500).json({ message: { msgbody: err, msgError: true } })
@@ -44,14 +45,14 @@ router.get('/', (req, res) => {
 });
 
 //create Delete route 
-router.delete('/:listingID', (req, res) => {
+router.delete('/:listingID/delete', (req, res) => {
     Listings.findByIdAndRemove(req.params.listingID, (err, deletedListing) => {
         res.json(deletedListing);
     });
 });
 
 //create Update route
-router.put('/:listingID', (req, res) => {
+router.put('/:listingID/update', (req, res) => {
     Listings.findByIdAndUpdate(req.params.listingID, req.body, {new:true}, (err, updatedListing) => {
         res.json(updatedListing);
     });

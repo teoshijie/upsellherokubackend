@@ -5,7 +5,7 @@ const passport = require('passport');
 const passportConfig = require('../passport');
 const JWT = require('jsonwebtoken');
 const Listings = require('../models/listings');
-
+const Orders = require('../models/orders');
 
 const signToken = userID => {
     return JWT.sign({
@@ -47,53 +47,85 @@ router.post('/signup', (req, res) => {
     const { username, password, email, mobile } = req.body
     User.findOne({ username }, (err, user) => {
         if (err) {
-            res.status(500).json({ message: "Error has occured!"} )
+            res.status(500).json({ message: "Error has occured!" })
         } else if (user) {
-            res.status(500).json({ message: "Username is already taken!"})
+            res.status(500).json({ message: "Username is already taken!" })
         } else {
             const newUser = new User({ username, password, email, mobile });
             newUser.save(err => {
                 if (err) {
-                    res.status(500).json({ message: "Username is already taken!"})
+                    res.status(500).json({ message: "Username is already taken!" })
                 } else {
-                    res.status(201).json({ message: "Account successfully create"})
+                    res.status(201).json({ message: "Account successfully create" })
                 }
             })
         }
     })
 })
 
-router.post('/create',passport.authenticate('jwt',{session : false}),(req,res)=>{
-    console.log('reqbody'+ req.body)
+router.post('/create', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('reqbody' + req.body)
     const listing = new Listings(req.body);
-    console.log('listing'+ listing)
-    listing.save(err=>{
-        if(err)
-            res.status(500).json({message : {msgBody : "Error has occured", msgError: true}});
-        else{
-            console.log('requser'+ req.user)
+    console.log('listing' + listing)
+    listing.save(err => {
+        if (err)
+            res.status(500).json({ message: { msgBody: "Error has occured", msgError: true } });
+        else {
+            console.log('requser' + req.user)
             listing.userID = req.user;
-            listing.save(err=>{ if(err)
-                res.status(500).json({message : {msgBody : "Error has occured", msgError: true}});
+            listing.save(err => {
+                if (err)
+                    res.status(500).json({ message: { msgBody: "Error has occured", msgError: true } });
                 else {
-                    res.status(200).json({message : {msgBody : "Successfully created listing", msgError : false}});
-                }})
-            }
+                    res.status(200).json({ message: { msgBody: "Successfully created listing", msgError: false } });
+                }
+            })
+        }
     })
 });
 
+router.post('/order', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const order = new Orders(req.body);
+    order.save(err => {
+        if (err)
+            res.status(500).json({ message: { msgBody: "Error has occured", msgError: true } });
+        else {
+            order.purchaser_userID = req.user._id;
+            order.save(err => {
+                if (err)
+                    res.status(500).json({ message: { msgBody: "Error has occured", msgError: true } });
+                else {
+                    res.status(200).json({ message: { msgBody: "Successfully created listing", msgError: false } });
+                }
+            })
+        }
+    })
+});
 
-router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
-    if (req.isAuthenticated()) {
-        const info = req.user;
-            info.password = null;
-        const token = signToken(info._id);
-        res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-        res.status(200).json({ isAuthenticated: true, user: info});
+router.post(
+    '/login',
+    (req, res, next) => {
+        passport.authenticate('local', (err, user, info) => {
+            console.log("err and user" + err, user)
+            if (err) { //unknown server error 
+                next(err)
+            }
+            if (!user) { //empty case
+                res.status(400).json({ message: 'Invalid Username or password' })
+            }
+            else req.logIn(user, { session: false }, err => {
+                if (err) {
+                    next(err) //for password? check later
+                }
+                const { _id, username } = req.user; //success case
+                const token = signToken(_id);
+                res.cookie('access_token', token, { httpOnly: true, sameSite: true });
+                res.status(200).json({ isAuthenticated: true, user: { username, _id } });
+            }
+            )
+        })(req, res, next)
     }
-})
-
-
+);
 
 
 module.exports = router;
