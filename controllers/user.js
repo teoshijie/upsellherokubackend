@@ -119,7 +119,7 @@ router.post(
                 }
                 const { _id, username, wallet } = req.user; //success case
                 const token = signToken(_id);
-                res.cookie('access_token', token, { httpOnly: true, sameSite: true });
+                res.cookie('access_token', token, { httpOnly: false, sameSite: true });
                 res.status(200).json({ isAuthenticated: true, user: { username, _id, wallet } });
             }
             )
