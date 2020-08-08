@@ -24,12 +24,10 @@ const userSchema = new mongoose.Schema({
                 required: true 
         },
         created_date: { type: Date, default: Date.now },
-        shoppingcart: [
-                {
-                        productID: { type: String },
-                        quantity: { type: Number }
-                }
-        ]
+        wallet: {
+                type: mongoose.Types.Decimal128,
+                default: 4000
+        }
 });
 
 userSchema.pre('save', function (next) {
