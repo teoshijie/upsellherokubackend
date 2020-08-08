@@ -8,7 +8,7 @@
     "price": "39.90",
     "meetup": "Bedok",
     "condition": "new",
-    "userID": ""
+    "userID": "5f27e459d922e4037eb4d5ff"
 },
 {
     "name": "3-Stripes Tee",
@@ -19,7 +19,7 @@
     "price": "89.90",
     "meetup": "Orchard",
     "condition": "new",
-    "userID": ""
+    "userID": "5f27e459d922e4037eb4d5ff"
 },
 {
     "name": "Surfing Tee",
@@ -30,7 +30,7 @@
     "price": "79.90",
     "meetup": "Jurong",
     "condition": "old",
-    "userID": ""
+    "userID": "5f2b556073eb1807469e742a"
 },
 {
     "name": "Adventure Waist Bag",
@@ -41,7 +41,7 @@
     "price": "100.90",
     "meetup": "Paya Lebar",
     "condition": "old",
-    "userID": ""
+    "userID": "5f2b556073eb1807469e742a"
 },
 {  
     "name": "Superstar Shoes",
@@ -52,7 +52,7 @@
     "price": "140.99",
     "meetup": "Toa Payoh",
     "condition": "old",
-    "userID": ""
+    "userID": "5f2b559c73eb1807469e742b"
 },
 {
     "name": "Ultraboost 20 Shoes",
@@ -63,7 +63,7 @@
     "price": "140.99",
     "meetup": "Woodland",
     "condition": "new",
-    "userID": ""
+    "userID": "5f2b559c73eb1807469e742b"
     
 }]
 
