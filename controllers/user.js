@@ -22,8 +22,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/authenticated', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { username, _id } = req.user;
-    res.status(200).json({ isAuthenticated: true, user: { username, _id } });
+    const { username, _id, wallet } = req.user;
+    res.status(200).json({ isAuthenticated: true, user: { username, _id, wallet } });
 })
 
 router.get('/logout', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -117,10 +117,10 @@ router.post(
                 if (err) {
                     next(err) //for password? check later
                 }
-                const { _id, username } = req.user; //success case
+                const { _id, username, wallet } = req.user; //success case
                 const token = signToken(_id);
                 res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-                res.status(200).json({ isAuthenticated: true, user: { username, _id } });
+                res.status(200).json({ isAuthenticated: true, user: { username, _id, wallet } });
             }
             )
         })(req, res, next)
