@@ -15,6 +15,7 @@ app.use(cors({
     methods: 'GET,POST,PATCH,DELETE,OPTIONS',
     optionsSuccessStatus: 200,
     origin: frontEndUrl,
+    exposedHeaders: 'Content-Range, X-Content-Range',
     credentials: true
   }));
 app.options('*', cors());
