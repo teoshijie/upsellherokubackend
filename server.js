@@ -9,17 +9,15 @@ const frontEndUrl = process.env.Front_End_URL || 'http://localhost:3000';
 
 require('./db');
 
-
 //middlewares
 
-app.use(cors({
-    methods: 'GET,POST,PATCH,DELETE,OPTIONS',
-    optionsSuccessStatus: 200,
-    origin: frontEndUrl,
-    allowedHeaders: 'Content-Type, Authorization',
-    exposedHeaders: 'Content-Range, X-Content-Range, Authorization',
-    credentials: true
-  }));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", frontEndUrl);
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS, PATCH");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Cookie, Content-Type, Accesstoken, ApiAccessToken, Accept, AppID");
+    next();
+});
 
 app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json());
