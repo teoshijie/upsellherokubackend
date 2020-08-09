@@ -11,7 +11,13 @@ require('./db');
 
 
 //middlewares 
-app.use(cors({origin: frontEndUrl , credentials: true }));
+app.use(cors({
+    methods: 'GET,POST,PATCH,DELETE,OPTIONS',
+    optionsSuccessStatus: 200,
+    origin: 'frontEndUrl',
+    credentials: true
+  }));
+app.options('*', cors());
 app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json());
 app.use(cookieParser());
