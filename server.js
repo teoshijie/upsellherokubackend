@@ -15,10 +15,9 @@ app.use(cors({
     methods: 'GET,POST,PATCH,DELETE,OPTIONS',
     optionsSuccessStatus: 200,
     origin: frontEndUrl,
-    exposedHeaders: 'Content-Range, X-Content-Range',
+    exposedHeaders: 'Content-Range, X-Content-Range, Authorization ',
     credentials: true
   }));
-app.options('*', cors());
 app.options('*', cors());
 app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json());
