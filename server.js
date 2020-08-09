@@ -14,9 +14,10 @@ require('./db');
 app.use(cors({
     methods: 'GET,POST,PATCH,DELETE,OPTIONS',
     optionsSuccessStatus: 200,
-    origin: 'frontEndUrl',
+    origin: frontEndUrl,
     credentials: true
   }));
+app.options('*', cors());
 app.options('*', cors());
 app.use(express.urlencoded({ extended: false })); // extended: false - does not allow nested objects in query strings
 app.use(express.json());
